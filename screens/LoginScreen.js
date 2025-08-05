@@ -37,7 +37,8 @@ const SIGNUP = gql`
 `;
 
 export default function LoginScreen({ navigation }) {
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(false);
+  const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -65,13 +66,14 @@ export default function LoginScreen({ navigation }) {
       });
     } catch (err) {
       setError(err.message || 'Login failed');
+      console.error('Login Error:', err);
     }
   };
 
   const handleSignup = async () => {
     setError(''); // Clear previous errors
     
-    if (!email || !password || !confirmPassword) {
+    if (!username || !email || !password || !confirmPassword) {
       setError('Please fill in all fields');
       return;
     }
@@ -82,7 +84,7 @@ export default function LoginScreen({ navigation }) {
     }
 
     try {
-      const { data } = await signup({ variables: {email, password } });
+      const { data } = await signup({ variables: {name: username, email, password } });
       await AsyncStorage.setItem('userId', data.signup.id);
       navigation.reset({
         index: 0,
@@ -92,17 +94,6 @@ export default function LoginScreen({ navigation }) {
       setError(err.message || 'Signup failed');
     }
   };
-
-  const PlantIllustration = () => (
-    <View style={styles.plantContainer}>
-      <View style={styles.pot}>
-        <View style={styles.potRim} />
-      </View>
-      <View style={styles.stem} />
-      <View style={[styles.leaf, styles.leftLeaf]} />
-      <View style={[styles.leaf, styles.rightLeaf]} />
-    </View>
-  );
 
   const SocialButton = ({ icon, onPress }) => (
     <TouchableOpacity style={styles.socialButton} onPress={onPress}>
@@ -130,7 +121,7 @@ export default function LoginScreen({ navigation }) {
             contentContainerStyle={styles.scrollContainer}
             showsVerticalScrollIndicator={false}
           >
-            {!isSignUp && (
+            {!isSignIn && (
               <>
                 <View style={styles.header}>
                   <Text style={styles.greeting}>Hello!</Text>
@@ -139,12 +130,12 @@ export default function LoginScreen({ navigation }) {
               </>
             )}
 
-            <View style={[styles.formContainer, isSignUp && styles.signupFormContainer]}>
-              {isSignUp && (
+            <View style={[styles.formContainer, isSignIn && styles.signupFormContainer]}>
+              {isSignIn && (
                 <TouchableOpacity
                   style={styles.backButton}
                   onPress={() => {
-                    setIsSignUp(false);
+                    setIsSignIn(false);
                     setError(''); // Clear errors when switching
                   }}
                 >
@@ -154,7 +145,7 @@ export default function LoginScreen({ navigation }) {
               )}
 
               <Text style={styles.formTitle}>
-                {isSignUp ? 'Sign Up' : 'Login'}
+                {isSignIn ? 'Sign Up' : 'Login'}
               </Text>
 
               {/* Error Message Box */}
@@ -164,7 +155,25 @@ export default function LoginScreen({ navigation }) {
                   <Text style={styles.errorText}>{error}</Text>
                 </View>
               ) : null}
-
+            {isSignIn && (
+                <>
+              <View style={styles.inputContainer}>
+                <Ionicons name="text-outline" size={20} color="#A0A0A0" style={styles.inputIcon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Name"
+                  placeholderTextColor="#A0A0A0"
+                  value={username}
+                  onChangeText={(text) => {
+                    setName(text);
+                    if (error) setError(''); // Clear error when user starts typing
+                  }}
+                  keyboardType="username"
+                  autoCapitalize="none"
+                />
+              </View>
+              </>)
+            }
               <View style={styles.inputContainer}>
                 <Ionicons name="mail-outline" size={20} color="#A0A0A0" style={styles.inputIcon} />
                 <TextInput
@@ -206,7 +215,7 @@ export default function LoginScreen({ navigation }) {
                 </TouchableOpacity>
               </View>
 
-              {isSignUp && (
+              {isSignIn && (
                 <>
                   <View style={styles.inputContainer}>
                     <Ionicons name="lock-closed-outline" size={20} color="#A0A0A0" style={styles.inputIcon} />
@@ -235,7 +244,7 @@ export default function LoginScreen({ navigation }) {
                 </>
               )}
 
-              {!isSignUp && (
+              {!isSignIn && (
                 <TouchableOpacity style={styles.forgotPassword}>
                   <Text style={styles.forgotPasswordText}>Forgot Password</Text>
                 </TouchableOpacity>
@@ -243,14 +252,14 @@ export default function LoginScreen({ navigation }) {
 
               <TouchableOpacity
                 style={styles.primaryButton}
-                onPress={isSignUp ? handleSignup : handleLogin}
+                onPress={isSignIn ? handleSignup : handleLogin}
               >
                 <Text style={styles.primaryButtonText}>
-                  {isSignUp ? 'Sign Up' : 'Login'}
+                  {isSignIn ? 'Sign Up' : 'Login'}
                 </Text>
               </TouchableOpacity>
 
-              {!isSignUp && (
+              {!isSignIn && (
                 <>
                   <View style={styles.divider}>
                     <View style={styles.dividerLine} />
@@ -267,7 +276,7 @@ export default function LoginScreen({ navigation }) {
                   <TouchableOpacity
                     style={styles.switchMode}
                     onPress={() => {
-                      setIsSignUp(true);
+                      setIsSignIn(true);
                       setError(''); // Clear errors when switching
                     }}
                   >
@@ -330,52 +339,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: 'rgba(255, 255, 255, 0.8)',
-  },
-  plantContainer: {
-    alignItems: 'center',
-    marginBottom: 40,
-    position: 'relative',
-  },
-  pot: {
-    width: 60,
-    height: 40,
-    backgroundColor: '#E8E8E8',
-    borderRadius: 8,
-    position: 'relative',
-  },
-  potRim: {
-    position: 'absolute',
-    top: -3,
-    left: -2,
-    right: -2,
-    height: 6,
-    backgroundColor: '#D0D0D0',
-    borderRadius: 8,
-  },
-  stem: {
-    width: 4,
-    height: 25,
-    backgroundColor: '#4A7C59',
-    position: 'absolute',
-    top: 15,
-    borderRadius: 2,
-  },
-  leaf: {
-    width: 20,
-    height: 35,
-    backgroundColor: '#5B8A72',
-    borderRadius: 20,
-    position: 'absolute',
-  },
-  leftLeaf: {
-    top: -5,
-    left: -8,
-    transform: [{ rotate: '-20deg' }],
-  },
-  rightLeaf: {
-    top: -5,
-    right: -8,
-    transform: [{ rotate: '20deg' }],
   },
   formContainer: {
     backgroundColor: 'white',

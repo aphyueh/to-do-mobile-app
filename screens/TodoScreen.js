@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F9FAFB',
-    paddingTop: StatusBar.currentHeight || 0, // Add padding for Android status bar
+    paddingTop: 0
   },
   loadingContainer: {
     flex: 1,
@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   header: {
-    backgroundColor: '#0D9488',
+    backgroundColor: '#1299f3ff',
     paddingHorizontal: 20,
     paddingVertical: 16,
     paddingTop: 20, // Extra padding for better spacing
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   welcomeSection: {
-    backgroundColor: '#0D9488',
+    backgroundColor: '#0087c6ff',
     padding: 20,
     paddingBottom: 30,
   },
@@ -403,6 +403,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 28,
     fontWeight: 'bold',
+    marginTop: 20,
     marginBottom: 8,
   },
   welcomeSubtitle: {
@@ -467,7 +468,7 @@ const styles = StyleSheet.create({
     maxHeight: 100,
   },
   addButton: {
-    backgroundColor: '#0D9488',
+    backgroundColor: '#1299f3ff',
     borderRadius: 12,
     padding: 12,
     justifyContent: 'center',
@@ -516,8 +517,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   checkboxCompleted: {
-    backgroundColor: '#0D9488',
-    borderColor: '#0D9488',
+    backgroundColor: '#1299f3ff',
+    borderColor: 'rgba(13, 56, 148, 1)ff',
   },
   todoText: {
     flex: 1,
@@ -563,7 +564,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: '100%',
-    backgroundColor: '#0D9488',
+    backgroundColor: 'rgba(25, 126, 169, 1)ff',
     borderRadius: 6,
   },
 });
