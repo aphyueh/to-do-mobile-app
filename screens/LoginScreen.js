@@ -28,8 +28,8 @@ const LOGIN = gql`
 `;
 
 const SIGNUP = gql`
-  mutation Signup($email: String!, $password: String!) {
-    signup(email: $email, password: $password) {
+  mutation Signup($name: String!, $email: String!, $password: String!) {
+    signup(name: $name, email: $email, password: $password) {
       id
       email
     }
@@ -82,7 +82,7 @@ export default function LoginScreen({ navigation }) {
     }
 
     try {
-      const { data } = await signup({ variables: { email, password } });
+      const { data } = await signup({ variables: {email, password } });
       await AsyncStorage.setItem('userId', data.signup.id);
       navigation.reset({
         index: 0,
