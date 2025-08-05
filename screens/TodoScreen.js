@@ -354,10 +354,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   header: {
-    backgroundColor: '#1299f3ff',
+    backgroundColor: '#0087c6ff',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    paddingTop: 20, // Extra padding for better spacing
+    paddingTop: 20, 
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -366,6 +366,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    marginTop: 10,
   },
   headerLeft: {
     flexDirection: 'row',
