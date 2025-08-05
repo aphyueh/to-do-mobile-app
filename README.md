@@ -1,16 +1,22 @@
 # TodoBreeze - React Native Todo Mobile App
 
-A beautiful and intuitive mobile todo application built with React Native and Expo, featuring user authentication and real-time task management through GraphQL API integration.
+An intuitive mobile todo application built with React Native and Expo, featuring user signup/login and real-time task management through GraphQL API integration.
+
+### Deployed Expo App 
+Click [here](https://expo.dev/accounts/aphyueh/projects/to-do-mobile-app/builds/f8919be9-a701-4897-bd82-e56d5b797d0e) 
+or scan this QR code for the installation link for Android phones
+
+<img src="img/expo-qr-code.png" alt="QR Code to install the app" width="30%">
 
 ## Features
 
-- **User Authentication**: Secure login and signup with email/password
+- **User Authentication**: Login and signup with email and dummy password
 - **Task Management**: Create, view, toggle completion, and delete tasks
 - **Real-time Updates**: GraphQL API integration for seamless data synchronization
 - **Beautiful UI/UX**: Modern design with gradients, animations, and intuitive interactions
 - **Progress Tracking**: Visual progress indicators and task statistics
 - **Offline Support**: Local state caching with Apollo Client
-- **Cross-platform**: Works on both iOS and Android
+- **Cross-platform**: Works on Android as of now
 
 ## Screenshots
 
@@ -47,8 +53,6 @@ Before running this application, make sure you have:
 2. **Install dependencies**
    ```bash
    npm install
-   # or
-   yarn install
    ```
 
 3. **Configure API endpoint**
@@ -75,16 +79,18 @@ Before running this application, make sure you have:
 ## Project Structure
 
 ```
-├── components/
+├── apollo/
+│   └── client.js        
+├── assets/                     # image files for icon/logos
+├── img/                        # Screenshots for documentation
+├── screens/
 │   ├── LoginScreen.js          # Authentication screen with login/signup
 │   └── TodoScreen.js           # Main todo list management screen
-├── graphql/
-│   └── queries.js              # GraphQL queries and mutations
-├── navigation/
-│   └── AppNavigator.js         # React Navigation setup
-├── utils/
-│   └── apolloClient.js         # Apollo Client configuration
 ├── App.js                      # Main app component
+├── app.json
+├── eas.json
+├── index.js
+├── package-lock.json                                  
 └── package.json
 ```
 
@@ -211,12 +217,7 @@ The app includes comprehensive error handling:
 
 ### Android
 ```bash
-expo build:android
-```
-
-### iOS
-```bash
-expo build:ios
+eas build --platform android --profile preview
 ```
 
 ## Author
