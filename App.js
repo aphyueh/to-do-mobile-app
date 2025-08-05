@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ApolloProvider } from '@apollo/client';
-import client from './apollo/client'; // We'll lazy-load this
+import client from './apollo/client';
 import LoginScreen from './screens/LoginScreen';
 import TodoScreen from './screens/TodoScreen';
 import { ActivityIndicator, View } from 'react-native';
@@ -15,7 +15,7 @@ export default function App() {
   useEffect(() => {
     (async () => {
       const { default: createClient } = await import('./apollo/client');
-      const clientInstance = await createClient(); // because now client.js exports a function
+      const clientInstance = await createClient(); 
       setAppClient(clientInstance);
     })();
   }, []);
@@ -31,7 +31,12 @@ export default function App() {
   return (
     <ApolloProvider client={appClient}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator 
+          initialRouteName="Login"
+          screenOptions={{
+            headerShown: false, // This removes the header for all screens
+          }}
+        >
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Todos" component={TodoScreen} />
         </Stack.Navigator>

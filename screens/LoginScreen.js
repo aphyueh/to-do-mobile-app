@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
@@ -42,45 +41,55 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [phone, setPhone] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState(''); // Add error state
 
   const [login] = useMutation(LOGIN);
   const [signup] = useMutation(SIGNUP);
 
   const handleLogin = async () => {
+    setError(''); // Clear previous errors
+    
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+      setError('Please fill in all fields');
       return;
     }
 
     try {
       const { data } = await login({ variables: { email, password } });
       await AsyncStorage.setItem('userId', data.login.id);
-      navigation.navigate('Todos');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Todos' }],
+      });
     } catch (err) {
-      Alert.alert('Login failed', err.message);
+      setError(err.message || 'Login failed');
     }
   };
 
   const handleSignup = async () => {
+    setError(''); // Clear previous errors
+    
     if (!email || !password || !confirmPassword) {
-      Alert.alert('Error', 'Please fill in all fields');
+      setError('Please fill in all fields');
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
 
     try {
       const { data } = await signup({ variables: { email, password } });
       await AsyncStorage.setItem('userId', data.signup.id);
-      navigation.navigate('Todos');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Todos' }],
+      });
     } catch (err) {
-      Alert.alert('Signup failed', err.message);
+      setError(err.message || 'Signup failed');
     }
   };
 
@@ -125,20 +134,19 @@ export default function LoginScreen({ navigation }) {
               <>
                 <View style={styles.header}>
                   <Text style={styles.greeting}>Hello!</Text>
-                  <Text style={styles.subtitle}>Welcome to plantland</Text>
+                  <Text style={styles.subtitle}>Welcome to TodoBreeze</Text>
                 </View>
-
-                {/* <img src="./assets/activities.svg" alt="activities image" /> */}
-
-                {/* // <PlantIllustration /> */}
               </>
             )}
 
-            <View style={styles.formContainer}>
+            <View style={[styles.formContainer, isSignUp && styles.signupFormContainer]}>
               {isSignUp && (
                 <TouchableOpacity
                   style={styles.backButton}
-                  onPress={() => setIsSignUp(false)}
+                  onPress={() => {
+                    setIsSignUp(false);
+                    setError(''); // Clear errors when switching
+                  }}
                 >
                   <Ionicons name="arrow-back" size={20} color="#4A90A4" />
                   <Text style={styles.backText}>Back to login</Text>
@@ -149,6 +157,14 @@ export default function LoginScreen({ navigation }) {
                 {isSignUp ? 'Sign Up' : 'Login'}
               </Text>
 
+              {/* Error Message Box */}
+              {error ? (
+                <View style={styles.errorContainer}>
+                  <Ionicons name="alert-circle-outline" size={20} color="#DC2626" style={styles.errorIcon} />
+                  <Text style={styles.errorText}>{error}</Text>
+                </View>
+              ) : null}
+
               <View style={styles.inputContainer}>
                 <Ionicons name="mail-outline" size={20} color="#A0A0A0" style={styles.inputIcon} />
                 <TextInput
@@ -156,7 +172,10 @@ export default function LoginScreen({ navigation }) {
                   placeholder="Email"
                   placeholderTextColor="#A0A0A0"
                   value={email}
-                  onChangeText={setEmail}
+                  onChangeText={(text) => {
+                    setEmail(text);
+                    if (error) setError(''); // Clear error when user starts typing
+                  }}
                   keyboardType="email-address"
                   autoCapitalize="none"
                 />
@@ -169,7 +188,10 @@ export default function LoginScreen({ navigation }) {
                   placeholder="Password"
                   placeholderTextColor="#A0A0A0"
                   value={password}
-                  onChangeText={setPassword}
+                  onChangeText={(text) => {
+                    setPassword(text);
+                    if (error) setError(''); // Clear error when user starts typing
+                  }}
                   secureTextEntry={!showPassword}
                 />
                 <TouchableOpacity
@@ -193,7 +215,10 @@ export default function LoginScreen({ navigation }) {
                       placeholder="Confirm Password"
                       placeholderTextColor="#A0A0A0"
                       value={confirmPassword}
-                      onChangeText={setConfirmPassword}
+                      onChangeText={(text) => {
+                        setConfirmPassword(text);
+                        if (error) setError(''); // Clear error when user starts typing
+                      }}
                       secureTextEntry={!showConfirmPassword}
                     />
                     <TouchableOpacity
@@ -206,18 +231,6 @@ export default function LoginScreen({ navigation }) {
                         color="#A0A0A0"
                       />
                     </TouchableOpacity>
-                  </View>
-
-                  <View style={styles.inputContainer}>
-                    <Ionicons name="call-outline" size={20} color="#A0A0A0" style={styles.inputIcon} />
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Phone"
-                      placeholderTextColor="#A0A0A0"
-                      value={phone}
-                      onChangeText={setPhone}
-                      keyboardType="phone-pad"
-                    />
                   </View>
                 </>
               )}
@@ -253,7 +266,10 @@ export default function LoginScreen({ navigation }) {
 
                   <TouchableOpacity
                     style={styles.switchMode}
-                    onPress={() => setIsSignUp(true)}
+                    onPress={() => {
+                      setIsSignUp(true);
+                      setError(''); // Clear errors when switching
+                    }}
                   >
                     <Text style={styles.switchModeText}>
                       Don't have account? <Text style={styles.switchModeLink}>Sign Up</Text>
@@ -302,7 +318,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
   },
   header: {
-    marginTop: 60,
+    marginTop: 100,
     marginBottom: 30,
   },
   greeting: {
@@ -375,6 +391,9 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
+  signupFormContainer: {
+    marginTop: 160, // Add margin top for signup form
+  },
   backButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -390,6 +409,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#4A90A4',
     marginBottom: 30,
+  },
+  // Error Message Styles
+  errorContainer: {
+    backgroundColor: '#FEE2E2',
+    borderColor: '#FECACA',
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  errorIcon: {
+    marginRight: 8,
+  },
+  errorText: {
+    color: '#DC2626',
+    fontSize: 14,
+    flex: 1,
+    fontWeight: '500',
   },
   inputContainer: {
     flexDirection: 'row',

@@ -1,0 +1,80 @@
+.container {
+    flex: 1;
+    background-color: #f8f9fa;
+}
+
+.statsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px 0;
+    background-color: #e3f2fd;
+}
+
+.statText {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.todoList {
+    flex: 1;
+}
+
+.todoItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #ffffff;
+}
+
+.todoText {
+    flex: 1;
+    font-size: 16px;
+}
+
+.completedText {
+    text-decoration: line-through;
+    color: #9e9e9e;
+}
+
+.deleteText {
+    font-size: 18px;
+    color: #d32f2f;
+    margin-left: 10px;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 16px;
+    background-color: #ffffff;
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+}
+
+.input {
+    flex: 1;
+    border: 1px solid #cfd8dc;
+    border-radius: 8px;
+    padding: 0 12px;
+    height: 44px;
+    margin-right: 10px;
+    background-color: #ffffff;
+}
+
+.addButton {
+    background-color: #00796b;
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addButtonText {
+    font-size: 20px;
+    color: white;
+}
