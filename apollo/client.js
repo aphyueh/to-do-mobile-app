@@ -13,7 +13,7 @@ export default async function createApolloClient() {
 
   const client = new ApolloClient({
     link: new HttpLink({
-      uri: 'http://192.168.68.65:4000/', 
+      uri: 'https://r4dz7ss5od.execute-api.us-east-1.amazonaws.com/dev/graphql', 
     }),
     cache,
     connectToDevTools: true,
