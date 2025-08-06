@@ -104,10 +104,10 @@ const TodoPage = () => {
     skip: !userId,
   });
 
-  console.log('Query data:', data);
-  console.log('Query loading:', loading);
-  console.log('Query error:', error);
-  console.log('UserId:', userId);
+  // console.log('Query data:', data);
+  // console.log('Query loading:', loading);
+  // console.log('Query error:', error);
+  // console.log('UserId:', userId);
 
   if (loading) {
     return (
@@ -337,10 +337,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#4A90A4',
   },
   loadingText: {
     fontSize: 16,
-    color: '#6B7280',
+    color: '#fefefeff',
   },
   errorContainer: {
     flex: 1,
