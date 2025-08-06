@@ -208,7 +208,7 @@ const TodoPage = () => {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Ionicons name="checkbox" size={32} color="white" />
+          <Ionicons style={styles.logo} name="checkbox" size={32} color="white" />
           <Text style={styles.headerTitle}>TodoBreeze</Text>
         </View>
         <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
@@ -330,7 +330,7 @@ const TodoPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#4A90A4',
     paddingTop: 0
   },
   loadingContainer: {
@@ -353,8 +353,11 @@ const styles = StyleSheet.create({
     color: '#EF4444',
     textAlign: 'center',
   },
+  logo: {
+    marginTop: 20,
+  },
   header: {
-    backgroundColor: '#0087c6ff',
+    backgroundColor: '#4A90A4',
     paddingHorizontal: 20,
     paddingVertical: 16,
     paddingTop: 20, 
@@ -366,7 +369,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    marginTop: 10,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -377,6 +379,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     marginLeft: 12,
+    marginTop: 20,
   },
   logoutButton: {
     flexDirection: 'row',
@@ -385,6 +388,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 6,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    marginTop: 20,
   },
   logoutText: {
     color: 'white',
@@ -396,7 +400,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   welcomeSection: {
-    backgroundColor: '#0087c6ff',
+    backgroundColor: '#4A90A4',
     padding: 20,
     paddingBottom: 30,
   },

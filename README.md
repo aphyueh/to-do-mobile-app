@@ -20,7 +20,9 @@ or scan this QR code for the installation link for Android phones
 
 ## Screenshots
 
-*Add your app screenshots here*
+<img src="/img/screenshot-login.jpg" alt="Screenshot of Login screen" width="30%">
+<img src="/img/screenshot-signup.jpg" alt="Screenshot of Signup screen" width="30%">
+<img src="/img/screenshot-todo.jpg" alt="Screenshot of Todo screen" width="30%">
 
 ## Tech Stack
 
